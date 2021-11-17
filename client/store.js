@@ -1,6 +1,6 @@
+/* global chrome */
 import React from 'react';
 import {action, makeObservable, observable} from 'mobx';
-import {storage} from "./storage";
 
 export const StoreContext = React.createContext(null);
 
@@ -17,7 +17,7 @@ export class Store
 	@action.bound
 	init()
 	{
-		storage.get('youtube_muted_words', '[]', 'mutetube').then(list =>
+		chrome.storage.local.get(['youtube_muted_words'], ({youtube_muted_words: list}) =>
 		{
 			if (!list)
 				list = [];
@@ -31,13 +31,14 @@ export class Store
 	addWord(word)
 	{
 		this.wordsList.push(word);
-		storage.set('youtube_muted_words', JSON.stringify(this.wordsList), '');
+		chrome.storage.local.set({'youtube_muted_words': JSON.stringify(this.wordsList)}, () => {});
 	}
 
 	@action.bound
 	removeWord(word)
 	{
+
 		this.wordsList = this.wordsList.filter(current => current !== word);
-		storage.set('youtube_muted_words', JSON.stringify(this.wordsList), '');
+		chrome.storage.local.set({'youtube_muted_words': JSON.stringify(this.wordsList)}, () => {});
 	}
 }

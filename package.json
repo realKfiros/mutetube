@@ -10,8 +10,11 @@
   "author": "realKfiros",
   "license": "ISC",
   "dependencies": {
+    "@emotion/css": "^11.5.0",
+    "@emotion/react": "^11.6.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.1.3",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "mobx": "^6.3.7",
     "mobx-react-lite": "^3.2.2",

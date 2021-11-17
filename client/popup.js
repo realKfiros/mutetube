@@ -1,10 +1,16 @@
 import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {StoreContext} from "./store";
+import {css} from "@emotion/css";
+import {Word} from "./word";
 
+const popupStyle = css`
+	min-width: 500px;
+	padding: 20px;
+`;
 export const Popup = observer(() =>
 {
-	const {wordsList, addWord, removeWord} = useContext(StoreContext);
+	const {wordsList, addWord} = useContext(StoreContext);
 	const [input, setInput] = useState('');
 
 	const onKeyDown = (event) =>
@@ -15,7 +21,7 @@ export const Popup = observer(() =>
 		}
 	}
 
-	return <>
+	return <div className={popupStyle}>
 		<div className="mb-3">
 			<label htmlFor="wordsInput" className="form-label">Enter words to mute from YouTube</label>
 			<input
@@ -28,7 +34,7 @@ export const Popup = observer(() =>
 				onKeyDown={onKeyDown}/>
 		</div>
 		<ul className="list-group">
-			{wordsList.map((word, index) => <li className="list-group-item" key={index} onClick={() => removeWord(word)}>{word}</li>)}
+			{wordsList.map((word, index) => <Word word={word} key={index} />)}
 		</ul>
-	</>;
+	</div>;
 });
