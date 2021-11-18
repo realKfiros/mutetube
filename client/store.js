@@ -7,6 +7,7 @@ export const StoreContext = React.createContext(null);
 export class Store
 {
 	@observable wordsList = [];
+	@observable enable;
 
 	constructor()
 	{
@@ -17,13 +18,15 @@ export class Store
 	@action.bound
 	init()
 	{
-		chrome.storage.local.get(['youtube_muted_words'], ({youtube_muted_words: list}) =>
+		chrome.storage.local.get(['youtube_muted_words', 'enable_youtube_muted_words'], ({youtube_muted_words: list, enable_youtube_muted_words: enable}) =>
 		{
 			if (!list)
 				list = [];
 			else
 				list = JSON.parse(list);
 			this.wordsList = list;
+			this.enable = parseInt(enable);
+			console.log(enable);
 		});
 	}
 
@@ -40,5 +43,12 @@ export class Store
 
 		this.wordsList = this.wordsList.filter(current => current !== word);
 		chrome.storage.local.set({'youtube_muted_words': JSON.stringify(this.wordsList)}, () => {});
+	}
+
+	@action.bound
+	toggle()
+	{
+		this.enable = !this.enable;
+		chrome.storage.local.set({'enable_youtube_muted_words': this.enable ? 1 : 0}, () => {});
 	}
 }

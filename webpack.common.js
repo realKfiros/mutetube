@@ -5,7 +5,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	mode: "development",
-	entry: path.join(__dirname, "client", "index.js"),
+	entry: {
+		client: path.join(__dirname, "client", "index.js"),
+		background: path.join(__dirname, "extension", "background.js"),
+		youtube: path.join(__dirname, "extension", "youtube.js")
+	},
 	output: {
 		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist')
@@ -68,7 +72,7 @@ module.exports = {
 		new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
 		new CopyWebpackPlugin({
 			patterns: [
-				{ from: './manifest.json' },
+				{ from: './extension/manifest.json' },
 				// { from: './src/icons/icon16.png' },
 				// { from: './src/icons/icon48.png' },
 				// { from: './src/icons/icon128.png' },
